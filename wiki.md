@@ -124,3 +124,30 @@ Hibernate:
 
 - JoinColumn vs MappedBy  
 JoinColumn only specify the foreign key column name, it not affects the track relationship.
+  
+* To avoid infinite recursive (stackoverflow)  
+use jackson annotation JsonIdentityInfo as below at the referenced side
+  
+```
+@Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+public class Parent {}
+```
+* fetchType.EAGER can solve sql N+ 1 problem, but may cause duplicate result.
+```Hibernate: 
+    select
+        parent0_.id as id1_1_0_,
+        parent0_.name as name2_1_0_,
+        childs1_.parent_id as parent_i3_0_1_,
+        childs1_.id as id1_0_1_,
+        childs1_.id as id1_0_2_,
+        childs1_.name as name2_0_2_,
+        childs1_.parent_id as parent_i3_0_2_ 
+    from
+        parent parent0_ 
+    left outer join
+        child childs1_ 
+            on parent0_.id=childs1_.parent_id 
+    where
+        parent0_.id=?
+```

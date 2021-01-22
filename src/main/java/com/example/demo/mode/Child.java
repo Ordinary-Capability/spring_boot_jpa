@@ -15,8 +15,8 @@ public class Child {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    @ManyToOne
-    @JoinColumn(name="reference_id")
+    @ManyToOne()
+    //@JoinColumn(name="reference_id")
     //@JsonBackReference
     private Parent parent;
     public Child(){}

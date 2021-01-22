@@ -15,7 +15,7 @@ public class Parent {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
-    @OneToMany(mappedBy = "parent")
+    @OneToMany(mappedBy = "parent", fetch = FetchType.EAGER)
     //@JsonManagedReference
     private List<Child> childs;
 
